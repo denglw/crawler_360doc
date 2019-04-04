@@ -46,14 +46,17 @@ public class Crawler360Doc {
 	 */
 	public static void main(String[] args) {
 //		System.out.println(System.getProperty("user.dir"));//user.dir指定了当前的路径 
-		String cuncpath = System.getProperty("user.dir");//user.dir指定了当前的路径 
-		String imagePath = cuncpath +"/images"+"/" ;
+		String currentPath = System.getProperty("user.dir");//user.dir指定了当前的路径 
+		String imagePath = currentPath +"/images/" ;
+		String pdfName = imagePath +"test.pdf";
 		try {
 			for(int i=1;i<=141;i++){
+				String.format("%03d", i);// => "001" 规范化命名文件，合并顺序正确
 				URL url = new URL("http://html11.360doc.com/2017/1130/17/708684095_"+i+".Jpeg");
 				File file = new File(imagePath+i+".jpeg");
-				downLoad(url,file);
+//				downLoad(url,file);
 			}
+			toPdf(imagePath,pdfName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -101,6 +104,7 @@ public class Crawler360Doc {
     	try {
             // 图片地址
             String imagePath = null;
+            // 问题解决 https://blog.csdn.net/xujingcheng123/article/details/78997819/
             fos = new FileOutputStream(pdfPath);
             // 写入PDF文档
             PdfWriter.getInstance(doc, fos);
