@@ -40,34 +40,14 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class Crawler360Doc {
 
-	//参考 https://blog.csdn.net/weixin_44112790/article/details/86775221
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-//		System.out.println(System.getProperty("user.dir"));//user.dir指定了当前的路径 
-		String currentPath = System.getProperty("user.dir");//user.dir指定了当前的路径 
-		String imagePath = currentPath +"/images/" ;
-		String pdfName = imagePath +"test.pdf";
-		try {
-			for(int i=1;i<=141;i++){
-				String.format("%03d", i);// => "001" 规范化命名文件，合并顺序正确
-				URL url = new URL("http://html11.360doc.com/2017/1130/17/708684095_"+i+".Jpeg");
-				File file = new File(imagePath+i+".jpeg");
-//				downLoad(url,file);
-			}
-			toPdf(imagePath,pdfName);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	/**
 	 * 
-	 * @param url
-	 * @param file
+	 * @param url 下载地址
+	 * @param file 文件名称（文件目录+文件名称） imagePathFile
 	 */
-	private static void downLoad(URL url,File file){
+	
+	public void downLoadFile(URL url,File file){
 		FileOutputStream fos = null;
 		InputStream is = null;
 		try {
@@ -95,8 +75,14 @@ public class Crawler360Doc {
 			}
 		}
 	}
+	
 
-	public static void toPdf(String imageFolderPath, String pdfPath) {
+	/**
+	 * 
+	 * @param imageFolderPath 输入图片文件目录
+	 * @param pdfPathFile 输出pdf文件名称（带目录+文件名称）
+	 */
+	public void mergeImgToPdf(String imageFolderPath, String pdfPathFile) {
     	// 创建文档
         Document doc = new Document(null, 0, 0, 0, 0);
         // 输入流
@@ -105,7 +91,7 @@ public class Crawler360Doc {
             // 图片地址
             String imagePath = null;
             // 问题解决 https://blog.csdn.net/xujingcheng123/article/details/78997819/
-            fos = new FileOutputStream(pdfPath);
+            fos = new FileOutputStream(pdfPathFile);
             // 写入PDF文档
             PdfWriter.getInstance(doc, fos);
             // 实例化图片
